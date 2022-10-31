@@ -13,7 +13,6 @@ public class Cell : MonoBehaviour
     public int x, y ;
     public int gCost, hCost, fCost;
     public Cell pastCell;
-
     public void Init(Grid grid, int x, int y, bool isWalkable)
     {
         this.grid = grid;
@@ -32,6 +31,8 @@ public class Cell : MonoBehaviour
 
     public void SetColor(Color color)
     {
+        this.gameObject.GetComponent<SpriteRenderer>().color = color;
+        //this.gameObject.GetComponent<SpriteRenderer>().sprite.;
         //Inner.GetComponent<SpriteRenderer>().color = color;
     }
 
@@ -43,7 +44,10 @@ public class Cell : MonoBehaviour
     internal void SetWalkable(bool v)
     {
         isWalkable = v;
-        SetColor(Color.black);
+        /*if (isWalkable)
+        {
+            SetColor(Color.black);
+        }*/
     }
 
     public override string ToString()

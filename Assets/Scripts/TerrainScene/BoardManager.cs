@@ -12,7 +12,7 @@ public class BoardManager : MonoBehaviour
     private Grid grid;
     private Player player;
     [SerializeField]
-    private float moveSpeed = 2f;
+    //private float moveSpeed = 2f;
 
     private void Awake()
     {
@@ -21,17 +21,17 @@ public class BoardManager : MonoBehaviour
 
     public void SetupBoard()
     {
-        grid = new Grid(11, 20, 1, CellPrefab);
+        grid = new Grid(5, 18, 1, CellPrefab);
 
-        Instantiate(PowerSourcePrefab, new Vector2(5, 19), Quaternion.identity);
+        Instantiate(PowerSourcePrefab, new Vector2(2, 17), Quaternion.identity);
 
-        PathManager.Instance.powerUnitLocation = new Vector2Int(5, 19);
+        PathManager.Instance.powerUnitLocation = new Vector2Int(2, 17);
 
         player = Instantiate(PlayerPrefab, new Vector2(0, 0), Quaternion.identity);
 
         player.starMoving(grid, 2);
 
-        player = Instantiate(PlayerPrefab, new Vector2(8, 0), Quaternion.identity);
+        player = Instantiate(PlayerPrefab, new Vector2(4, 0), Quaternion.identity);
 
         player.starMoving(grid, 3);
     }
