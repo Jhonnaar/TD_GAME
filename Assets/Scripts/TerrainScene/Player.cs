@@ -14,12 +14,20 @@ public class Player : MonoBehaviour
     private Grid grid;
     private bool changedCells = false;
     private Rigidbody2D rb;
+    private int tipo;
+    private string focus;
+    //[SerializeField] private GameObject Inner;
 
     // Index of current waypoint from which Enemy walks
     // to the next one
     private int waypointIndex = 0;
 
-    
+    public void setFocus(string focus) {
+        this.focus = focus;
+    }
+    public string GetFocus() {
+        return this.focus;
+    }
 
     void FixedUpdate()
     {
@@ -27,6 +35,17 @@ public class Player : MonoBehaviour
             Move();
     }
 
+    public void setTypo(int x) {
+        this.tipo = x;
+    }
+    public int getTypo()
+    {
+        return this.tipo;
+    }
+    public void SetColor(Color color)
+    {
+        GetComponent<SpriteRenderer>().color = color;
+    }
 
 
     public void starMoving(Grid grid, float speed)
@@ -51,10 +70,21 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PowerSource")
+        if (focus!="ambos")
         {
-            Debug.Log("Made it");
-            path = null;
+            if (collision.gameObject.tag == focus)
+            {
+                Debug.Log("Made it");
+                path = null;
+            }
+        }
+        else
+        {
+            if (collision.gameObject.tag == "PowerSource" || collision.gameObject.tag == "Tower")
+            {
+                Debug.Log("Made it");
+                path = null;
+            }
         }
     }
 

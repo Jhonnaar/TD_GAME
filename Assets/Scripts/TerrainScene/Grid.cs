@@ -30,6 +30,7 @@ public class Grid : ScriptableObject
         Cell cell;
         gridArray = new Cell[width, height];
         GameObject parent = new GameObject("TerrainParent");
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -37,24 +38,8 @@ public class Grid : ScriptableObject
                 var p = new Vector2(i, j) * cellSize;
                 cell = Instantiate(cellPrefab, p, Quaternion.identity);
                 //cell.transform.SetParent(parent.transform);
-                if (j >= 0 && j <= 5)
-                {
-                    cell.SetColor(Color.green);
-                }
-                else
-                {
-                    if (j >= 6 && j <= 11)
-                    {
-                        cell.SetColor(Color.white);
-                    }
-                }
                 cell.Init(this, (int)p.x, (int)p.y, true);
-                if ((j == 15 && i==1) || (j == 15 && i == 2) || (j == 15 && i == 3))
-                {
-                    cell.SetWalkable(false);
-                    cell.SetColor(Color.gray);
-                    //Debug.Log("Entra "+j+" "+i);
-                }
+
                 cell.transform.SetParent(parent.transform);
 
                 //if (Random.Range(0, 10) <= 2)

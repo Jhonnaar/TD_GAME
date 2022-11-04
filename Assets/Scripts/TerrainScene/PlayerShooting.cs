@@ -6,7 +6,7 @@ public class PlayerShooting : MonoBehaviour
 {
     public Transform firePoint;
     public Bullet bulletPrefab;
-    public float bulletForce = 20f;
+    public float bulletForce;
     public float shootingInterval = 0.3f;
     private float period = 0.0f;
     private bool startShotting = false;
@@ -14,6 +14,7 @@ public class PlayerShooting : MonoBehaviour
 
     private void Awake()
     {
+        
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -21,10 +22,24 @@ public class PlayerShooting : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PowerSource")
+        string focus = GetComponent<Player>().GetFocus();
+        if (focus != "ambos")
         {
-            startShotting = true;
-            lookAtTarget();
+            if (collision.gameObject.tag == focus)
+            {
+                startShotting = true;
+                bulletForce = GetComponent<Player>().getTypo() == 2 ? 20 : 10;
+                lookAtTarget();
+            }
+        }
+        else
+        {
+            if (collision.gameObject.tag == "PowerSource" || collision.gameObject.tag == "Tower")
+            {
+                startShotting = true;
+                bulletForce = GetComponent<Player>().getTypo() == 2 ? 20 : 10;
+                lookAtTarget();
+            }
         }
     }
 
