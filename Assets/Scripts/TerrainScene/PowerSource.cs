@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PowerSource : MonoBehaviour
 {
-    public int HP = 1000;
+    public int HP = 1400;
 
     private void Awake()
     {
-        HP = 1000;
+        HP = 1400;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,7 +16,7 @@ public class PowerSource : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             
-            HP -= 20;
+            HP -= collision.gameObject.GetComponent<Bullet>().getDamage();
             Debug.Log("Hit by a bullet, new HP "+ HP);
             Destroy(collision.gameObject);
             if (HP < 0)

@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private int tipo;
     private string focus;
+    private int HP = 400;
     //[SerializeField] private GameObject Inner;
 
     // Index of current waypoint from which Enemy walks
@@ -86,6 +87,17 @@ public class Player : MonoBehaviour
                 path = null;
             }
         }
+        if (collision.gameObject.tag == "Bullet")
+        {
+
+            HP -= collision.gameObject.GetComponent<Bullet>().getDamage();
+            Destroy(collision.gameObject);
+            if (HP < 0)
+            {
+                Destroy(this.gameObject);
+                //GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
+            }
+        }
     }
 
     private void Move()
@@ -132,5 +144,11 @@ public class Player : MonoBehaviour
                 changedCells = true;
             }
         }
+    }
+    public void setHp(int HP) {
+        this.HP = HP;
+    }
+    public int getHp() {
+        return HP;
     }
 }

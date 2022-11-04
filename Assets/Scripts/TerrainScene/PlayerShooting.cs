@@ -6,11 +6,12 @@ public class PlayerShooting : MonoBehaviour
 {
     public Transform firePoint;
     public Bullet bulletPrefab;
-    public float bulletForce;
+    public int bulletForce;
     public float shootingInterval = 0.3f;
     private float period = 0.0f;
     private bool startShotting = false;
     private Rigidbody2D rb;
+    private Vector2 targetPosicion;
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class PlayerShooting : MonoBehaviour
             {
                 startShotting = true;
                 bulletForce = GetComponent<Player>().getTypo() == 2 ? 20 : 10;
+                targetPosicion = collision.gameObject.transform.position;
                 lookAtTarget();
             }
         }
@@ -38,6 +40,7 @@ public class PlayerShooting : MonoBehaviour
             {
                 startShotting = true;
                 bulletForce = GetComponent<Player>().getTypo() == 2 ? 20 : 10;
+                targetPosicion = collision.gameObject.transform.position;
                 lookAtTarget();
             }
         }
@@ -45,7 +48,7 @@ public class PlayerShooting : MonoBehaviour
 
     public void lookAtTarget()
     {
-        Vector2 lookDir = PathManager.Instance.powerUnitLocation - rb.position;
+        Vector2 lookDir = targetPosicion - rb.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90;
         rb.rotation = angle;
     }
@@ -66,6 +69,7 @@ public class PlayerShooting : MonoBehaviour
     private void shoot()
     {
         Bullet bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        bullet.setDamage(bulletForce);
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
     }
 }
