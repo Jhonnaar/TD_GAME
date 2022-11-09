@@ -16,7 +16,10 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private int tipo;
     private string focus;
-    private int HP = 400;
+    public int HP;
+    private Collider2D objetive = null;
+    private Collider2D objetiveSource = null;
+    public int damage;
     //[SerializeField] private GameObject Inner;
 
     // Index of current waypoint from which Enemy walks
@@ -32,6 +35,14 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        //Debug.Log(startMoving);
+        if (objetive==null && objetiveSource==null && !startMoving) {
+            GetComponent<PlayerShooting>().startShotting = false;
+            if (gameObject.tag=="Player")
+            {
+                starMoving(this.grid, this.moveSpeed);
+            }
+        }
         if (startMoving)
             Move();
     }
@@ -51,7 +62,6 @@ public class Player : MonoBehaviour
 
     public void starMoving(Grid grid, float speed)
     {
-        
         this.grid = grid;
         calculatePath();
         startMoving = true;
@@ -71,22 +81,43 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (focus!="ambos")
         {
             if (collision.gameObject.tag == focus)
             {
-                Debug.Log("Made it");
+                if (collision.gameObject.tag=="PowerSouce")
+                {
+                    objetiveSource = collision;
+                }
+                else
+                {
+                    objetive = collision;
+                }
                 path = null;
+                startMoving = false;
             }
         }
         else
         {
             if (collision.gameObject.tag == "PowerSource" || collision.gameObject.tag == "Tower")
             {
-                Debug.Log("Made it");
+                if (collision.gameObject.tag == "PowerSouce")
+                {
+                    objetiveSource = collision;
+                }
+                else
+                {
+                    objetive = collision;
+                }
                 path = null;
+                startMoving = false;
+            }
+            else {
+                //GetComponent<PlayerShooting>().startShotting = false;
             }
         }
+        
         if (collision.gameObject.tag == "Bullet")
         {
 
@@ -94,10 +125,16 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
             if (HP < 0)
             {
+                /*if (objetive!=null && objetive.gameObject.tag!="PowerSource")
+                {
+                    Debug.Log(objetive.gameObject.tag);
+                    objetive.gameObject.GetComponent<PlayerShooting>().startShotting = false;
+                }*/
                 Destroy(this.gameObject);
                 //GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
             }
         }
+        
     }
 
     private void Move()

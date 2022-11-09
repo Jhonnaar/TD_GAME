@@ -14,12 +14,12 @@ TagManager:
   - 
   - Water
   - UI
-  - bullet
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Bullet
+  - bulletTower
+  - bulletPlayer
+  - Player
+  - Tower
+  - PowerSource
   - 
   - 
   - 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3550549395752754143}
   - component: {fileID: 3550549395752754128}
   - component: {fileID: 2219081163613578378}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PowerSource
   m_TagString: PowerSource
   m_Icon: {fileID: 0}

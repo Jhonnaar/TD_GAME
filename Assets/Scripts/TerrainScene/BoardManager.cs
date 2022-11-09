@@ -64,6 +64,7 @@ public class BoardManager : MonoBehaviour
         {
             player = Instantiate(PlayerPrefab, new Vector2(Random.Range(0, 11), Random.Range(0, 6)), Quaternion.identity);
             player.tag = "Player";
+            player.gameObject.layer = 9;
             player.setTypo(item);
             switch (item)
             {
@@ -71,16 +72,22 @@ public class BoardManager : MonoBehaviour
                     player.SetColor(Color.blue);
                     player.GetComponent<CircleCollider2D>().radius = 3;
                     player.setFocus("ambos");
+                    player.damage = 10;
+                    player.HP = 400;
                     break;
                 case 2:
                     player.SetColor(Color.black);
                     player.GetComponent<CircleCollider2D>().radius = 3;
                     player.setFocus("ambos");
+                    player.damage = 20;
+                    player.HP = 600;
                     break;
                 case 3:
                     player.SetColor(Color.green);
                     player.GetComponent<CircleCollider2D>().radius = 2;
                     player.setFocus("PowerSource");
+                    player.damage = 10;
+                    player.HP = 800;
                     break;
             }
             player.starMoving(grid, item==2? 2:4);
@@ -110,6 +117,7 @@ public class BoardManager : MonoBehaviour
         {
             player = Instantiate(PlayerPrefab, new Vector2(Random.Range(0, 11), Random.Range(13, 19)), Quaternion.identity);
             player.tag = "Tower";
+            player.gameObject.layer = 10;
             player.setTypo(item);
             player.setFocus("Player");
             switch (item)
@@ -117,10 +125,14 @@ public class BoardManager : MonoBehaviour
                 case 2:
                     player.SetColor(Color.red);
                     player.GetComponent<CircleCollider2D>().radius = 3;
+                    player.damage = 20;
+                    player.HP = 200;
                     break;
                 case 3:
                     player.SetColor(Color.cyan);
                     player.GetComponent<CircleCollider2D>().radius = 3;
+                    player.damage = 30;
+                    player.HP = 400;
                     break;
             }
             //player.starMoving(grid, item == 2 ? 2 : 4);
