@@ -130,7 +130,15 @@ public class Player : MonoBehaviour
                     Debug.Log(objetive.gameObject.tag);
                     objetive.gameObject.GetComponent<PlayerShooting>().startShotting = false;
                 }*/
+                if (tag=="Player")
+                {
+                    GameManager.Instance.unitsCount -= 1;
+                }
                 Destroy(this.gameObject);
+                if (GameManager.Instance.unitsCount<=0)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
+                }
                 //GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
             }
         }

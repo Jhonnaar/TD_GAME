@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1668171166",
+        "python_version": "3.9.12 (main, Apr  4 2022, 05:22:27) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "D:\\Documentos\\VJ\\TD_Game\\TD_GAME\\venv\\Scripts\\mlagents-learn --force",
+        "mlagents_version": "0.29.0",
+        "mlagents_envs_version": "0.29.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.13.0+cpu",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1668171230"
+    },
+    "total": 63.4273261,
+    "count": 1,
+    "self": 0.037327099999998836,
+    "children": {
+        "run_training.setup": {
+            "total": 0.21122660000000026,
+            "count": 1,
+            "self": 0.21122660000000026
+        },
+        "TrainerController.start_learning": {
+            "total": 63.1787724,
+            "count": 1,
+            "self": 0.0002961999999939735,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 63.178409099999996,
+                    "count": 1,
+                    "self": 63.178409099999996
+                },
+                "TrainerController._save_models": {
+                    "total": 6.710000000964556e-05,
+                    "count": 1,
+                    "self": 6.710000000964556e-05
+                }
+            }
+        }
+    }
+}

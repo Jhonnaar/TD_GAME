@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PowerSource : MonoBehaviour
 {
-    public int HP = 1400;
+    public int HP = 140;
 
     private void Awake()
     {
-        HP = 1400;
+        HP = 140;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,6 +20,7 @@ public class PowerSource : MonoBehaviour
             if (HP < 0)
             {
                 Destroy(this.gameObject);
+                BoardManager.Instance.gameInfo[66] = 1;
                 GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
             }
         }
