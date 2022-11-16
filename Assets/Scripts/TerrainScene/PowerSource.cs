@@ -21,6 +21,7 @@ public class PowerSource : MonoBehaviour
             {
                 Destroy(this.gameObject);
                 BoardManager.Instance.gameInfo[66] = 1;
+                Data.Instance.SetGame(true);
                 GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
             }
         }

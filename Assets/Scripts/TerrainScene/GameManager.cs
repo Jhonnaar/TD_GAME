@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = System.Random;
 
 public class GameManager : MonoBehaviour
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     private int killerNumber;
     private Vector2 positionKiller;
     public int unitsCount=0;
+    [SerializeField] public Text winRate;
 
     private void Awake()
     {
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour
             case GameStateEnum.progress:
                 break;
             case GameStateEnum.end:
-                WriteCSV(BoardManager.Instance.gameInfo);
+                //WriteCSV(BoardManager.Instance.gameInfo);
                 SceneManager.LoadScene("TerrainScene");
                 break;
         }

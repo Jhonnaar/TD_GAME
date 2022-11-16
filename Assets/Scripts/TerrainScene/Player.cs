@@ -137,6 +137,7 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject);
                 if (GameManager.Instance.unitsCount<=0)
                 {
+                    Data.Instance.SetGame(false);
                     GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
                 }
                 //GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
