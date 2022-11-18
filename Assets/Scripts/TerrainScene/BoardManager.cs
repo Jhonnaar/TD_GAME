@@ -23,8 +23,8 @@ public class BoardManager : MonoBehaviour
     private int presupuesto = 15;
     private int presupuestoTorres = 15;
     public int[] gameData = new int[133];
-    //private string url = "https://td-game-api.herokuapp.com/positions";
-    private string url = "http://127.0.0.1:4000/predict";
+    private string url = "https://td-game-api.herokuapp.com/predict";
+    //private string url = "http://127.0.0.1:4000/predict";
 
     //private float moveSpeed = 2f;
 
