@@ -20,7 +20,7 @@ public class PowerSource : MonoBehaviour
             if (HP < 0)
             {
                 Destroy(this.gameObject);
-                BoardManager.Instance.gameInfo[66] = 1;
+                BoardManager.Instance.gameData[BoardManager.Instance.gameData.Length-1] = 1;
                 Data.Instance.SetGame(true);
                 GameManager.Instance.UpdateGameState(GameManager.GameStateEnum.end);
             }

@@ -19,6 +19,7 @@ public class Data : MonoBehaviour
     public void FixedUpdate()
     {
         GameManager.Instance.winRate.text = "Score: " + ((float)winGames / (float)totalGames) * 100 + "%";
+
     }
 
     public void SetGame(bool won) {

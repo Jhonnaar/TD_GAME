@@ -6,7 +6,11 @@ using TMPro;
 using UnityEditorInternal;
 using ClipperLib;
 using System.Net.Http;
-//using Newtonsoft.Json;
+using System;
+using System.Linq;
+using System.Text;
+using TreeEditor;
+using System.Threading.Tasks;
 
 public class BoardManager : MonoBehaviour
 {
@@ -18,9 +22,10 @@ public class BoardManager : MonoBehaviour
     private Player player;
     private int presupuesto = 15;
     private int presupuestoTorres = 15;
-    public int[] gameInfo = new int[67];
-    private string url = "https://td-game-api.herokuapp.com/positions"; 
-    
+    public int[] gameData = new int[133];
+    //private string url = "https://td-game-api.herokuapp.com/positions";
+    private string url = "http://127.0.0.1:4000/predict";
+
     //private float moveSpeed = 2f;
 
     private void Awake()
@@ -35,8 +40,9 @@ public class BoardManager : MonoBehaviour
         Instantiate(PowerSourcePrefab, new Vector2(5, 19), Quaternion.identity);
 
         PathManager.Instance.powerUnitLocation = new Vector2Int(5, 19);
-        GenUnitsIA();
-        genTorres(presupuestoTorres);
+
+        Gen();
+        
         //genUnidades(presupuesto);
 
         //player = Instantiate(PlayerPrefab, new Vector2(0, 0), Quaternion.identity);
@@ -48,18 +54,40 @@ public class BoardManager : MonoBehaviour
         //player.starMoving(grid, 3);
     }
 
-    public async void GenUnitsIA()
+    public async void Gen() 
+    {
+        await genTorres(presupuestoTorres);
+        await GenUnitsIA();
+    }
+
+    [Serializable]
+    public class Tablero
+    {
+        public string Celdas;
+    }
+
+    public async Task GenUnitsIA()
     {
         try
         {
+            Tablero tablero = new Tablero();
+            tablero.Celdas = string.Join(",", gameData.Skip(66).Take(66));
+            var json = JsonUtility.ToJson(tablero);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
             var client = new HttpClient();
-            var response = await client.GetAsync(url);
+            var response = await client.PostAsync(url,data);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsStringAsync();
                 result = result.Split('[')[1];
                 result = result.Split(']')[0];
                 var lista = result.Split(',');
+                //Debug.Log(string.Join(",", gameData.Skip(66).Take(66)));
+                //Tablero tablero = new Tablero();
+                //tablero.Celdas = result;
+                //Debug.Log("json: "+JsonUtility.ToJson(tablero));
+                //Debug.Log(gameData.Length);
                 for (int i = 0; i < lista.Length; i++)
                 {
                     int item = System.Int32.Parse(lista[i]);
@@ -80,7 +108,7 @@ public class BoardManager : MonoBehaviour
                         player.gameObject.layer = 9;
                         player.setTypo(item);
                         GameManager.Instance.unitsCount += 1;
-                        gameInfo[celda - 1] = player.getTypo();
+                        gameData[celda - 1] = player.getTypo();
                         switch (item)
                         {
                             case 1:
@@ -118,13 +146,14 @@ public class BoardManager : MonoBehaviour
 
     public void genUnidades(int n)
     {
+        System.Random rd = new System.Random();
         List<int> unidades = new List<int>();
         int cont = 0;
         while (n != cont)
         {
             if (cont < n)
             {
-                int x = Random.Range(1, 4);
+                int x = rd.Next(1, 4);
                 unidades.Add(x);
                 cont += x;
             }
@@ -138,7 +167,7 @@ public class BoardManager : MonoBehaviour
         foreach (var item in unidades)
         {
 
-            player = Instantiate(PlayerPrefab, new Vector2(Random.Range(0, 11), Random.Range(0, 6)), Quaternion.identity);
+            player = Instantiate(PlayerPrefab, new Vector2(rd.Next(0, 11), rd.Next(0, 6)), Quaternion.identity);
             player.tag = "Player";
             //Debug.Log("Pocision: " + player.transform.position);
             //Debug.Log("Celda: " + UnitCell((int)player.transform.position.x+1, (int)player.transform.position.y+1));
@@ -146,7 +175,7 @@ public class BoardManager : MonoBehaviour
             player.gameObject.layer = 9;
             player.setTypo(item);
             GameManager.Instance.unitsCount += 1;
-            gameInfo[celda-1] = player.getTypo();
+            gameData[celda-1] = player.getTypo();
             switch (item)
             {
                 case 1:
@@ -185,15 +214,16 @@ public class BoardManager : MonoBehaviour
         result += posX;
         return result;
     }
-    public void genTorres(int n)
+    public async Task genTorres(int n)
     {
+        System.Random rd = new System.Random();
         List<int> unidades = new List<int>();
         int cont = 0;
         while (n != cont)
         {
             if (cont < n)
             {
-                int x = Random.Range(2, 4);
+                int x = rd.Next(2, 4);
                 unidades.Add(x);
                 cont += x;
             }
@@ -206,10 +236,12 @@ public class BoardManager : MonoBehaviour
         //Debug.Log("presupuesto restante: " + (cont - n));
         foreach (var item in unidades)
         {
-            player = Instantiate(PlayerPrefab, new Vector2(Random.Range(0, 11), Random.Range(13, 19)), Quaternion.identity);
+            player = Instantiate(PlayerPrefab, new Vector2(rd.Next(0, 11), rd.Next(13, 19)), Quaternion.identity);
             player.tag = "Tower";
+            int celda = UnitCell((int)player.transform.position.x + 1, (int)player.transform.position.y + 1);
             player.gameObject.layer = 10;
             player.setTypo(item);
+            gameData[celda - 78] = player.getTypo();
             player.setFocus("Player");
             switch (item)
             {

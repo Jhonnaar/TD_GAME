@@ -33,13 +33,15 @@ public class GameManager : MonoBehaviour
         switch (gameState)
         {
             case GameStateEnum.start:
+                //WriteNamesCSV();
                 BoardManager.Instance.SetupBoard();
                 UpdateGameState(GameStateEnum.progress);
                 break;
             case GameStateEnum.progress:
                 break;
             case GameStateEnum.end:
-                //WriteCSV(BoardManager.Instance.gameInfo);
+                //WriteCSV(BoardManager.Instance.gameData);
+                
                 SceneManager.LoadScene("TerrainScene");
                 break;
         }
@@ -82,5 +84,39 @@ public class GameManager : MonoBehaviour
             File.AppendAllText(ruta, salida.ToString());
         }
 
+    }
+    public void WriteNamesCSV() 
+    {
+        string ruta = @"D:\Documentos\VJ\TD_Game\TD_GAME\unitsData.csv";
+        string separador = ",";
+        List<String> filas = new List<string>();
+        StringBuilder salida = new StringBuilder();
+        string fila = "";
+        for (int i = 0; i < 133; i++)
+        {
+            if (i>65)
+            {
+                if (i < 132)
+                {
+                    fila += separador + "T" + (i + 1).ToString();
+                }
+                else
+                {
+                    fila += separador + "Won";
+                }
+            }
+            else
+            {
+                fila += i > 0 ? separador + "U" + (i + 1).ToString() : "" + "U" + (i + 1).ToString();
+            }
+
+        }
+        filas.Add(fila);
+        for (int i = 0; i < filas.Count; i++)
+        {
+            salida.AppendLine(String.Join(separador, filas[i]));
+
+            File.AppendAllText(ruta, salida.ToString());
+        }
     }
 }
